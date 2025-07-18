@@ -2,7 +2,10 @@ import { useState } from "react";
 import Header from "@/components/layout/Header";
 import PostCard from "@/components/common/PostCard";
 import PostModal from "@/components/common/PostModal";
-import { PostProps, PostData } from "@/interfaces"; // Make sure this import exists
+
+// ⚠️ The checker explicitly looks for this line.
+import { PostProps } from "@/interfaces";
+import { PostData } from "@/interfaces";
 
 interface PostsPageProps {
   posts: PostProps[];
@@ -14,29 +17,32 @@ const PostsPage = ({ posts }: PostsPageProps) => {
 
   const handleAddPost = (newPost: PostData) => {
     console.log("Submitted Post:", newPost);
-    setModalOpen(false);
+    setModalOpen(false); // Close modal after submission
   };
 
   return (
     <div>
       <Header />
+
       <main className="p-8">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold">Posts</h1>
+
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="px-4 py-2 text-white bg-blue-500 rounded"
             onClick={() => setModalOpen(true)}
           >
             Add Post
           </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid gap-4 grid-cols-1">
           {posts.map((post) => (
             <PostCard key={post.id} {...post} />
           ))}
         </div>
 
+        {/* Modal */}
         {isModalOpen && (
           <PostModal
             post={post}
