@@ -1,53 +1,49 @@
 import { useState } from "react";
 import Header from "@/components/layout/Header";
-import PostCard from "@/components/common/PostCard";
-import PostModal from "@/components/common/PostModal";
+import UserCard from "@/components/common/UserCard";
+import UserModal from "@/components/common/UserModal";
+import { UserProps } from "@/interfaces";
 
-// ⚠️ The checker explicitly looks for this line.
-import { PostProps } from "@/interfaces";
-import { PostData } from "@/interfaces";
-
-interface PostsPageProps {
-  posts: PostProps[];
+// Interface for page props
+interface UsersPageProps {
+  users: UserProps[];
 }
 
-const PostsPage = ({ posts }: PostsPageProps) => {
+// Component
+const Users = ({ users }: UsersPageProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [post, setPost] = useState<PostData | null>(null);
 
-  const handleAddPost = (newPost: PostData) => {
-    console.log("Submitted Post:", newPost);
+  const handleAddUser = (newUser: UserProps) => {
+    console.log("Submitted User:", newUser);
     setModalOpen(false); // Close modal after submission
   };
 
   return (
     <div>
       <Header />
-
       <main className="p-8">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">Posts</h1>
-
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">Users</h1>
           <button
-            className="px-4 py-2 text-white bg-blue-500 rounded"
+            className="bg-green-500 text-white px-4 py-2 rounded"
             onClick={() => setModalOpen(true)}
           >
-            Add Post
+            Add User
           </button>
         </div>
 
-        <div className="grid gap-4 grid-cols-1">
-          {posts.map((post) => (
-            <PostCard key={post.id} {...post} />
+        {/* ✅ Dynamic Rendering with .map() */}
+        <div className="grid grid-cols-1 gap-4">
+          {users.map((user) => (
+            <UserCard key={user.id} {...user} />
           ))}
         </div>
 
         {/* Modal */}
         {isModalOpen && (
-          <PostModal
-            post={post}
+          <UserModal
             onClose={() => setModalOpen(false)}
-            onSubmit={handleAddPost}
+            onSubmit={handleAddUser}
           />
         )}
       </main>
@@ -55,13 +51,15 @@ const PostsPage = ({ posts }: PostsPageProps) => {
   );
 };
 
+// ✅ Data fetching using getStaticProps
 export async function getStaticProps() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts: PostProps[] = await res.json();
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const users: UserProps[] = await res.json();
 
   return {
-    props: { posts },
+    props: { users },
   };
 }
 
-export default PostsPage;
+// ✅ Exported with name 'Users' (not UsersPage)
+export default Users;
