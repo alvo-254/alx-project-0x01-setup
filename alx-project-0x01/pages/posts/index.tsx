@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "@/components/layout/Header";
 import PostCard from "@/components/common/PostCard";
 import PostModal from "@/components/common/PostModal";
-import { PostProps, PostData } from "@/interfaces";
+import { PostProps, PostData } from "@/interfaces"; // Make sure this import exists
 
 interface PostsPageProps {
   posts: PostProps[];
@@ -14,7 +14,7 @@ const PostsPage = ({ posts }: PostsPageProps) => {
 
   const handleAddPost = (newPost: PostData) => {
     console.log("Submitted Post:", newPost);
-    setModalOpen(false); // Close modal
+    setModalOpen(false);
   };
 
   return (
@@ -37,7 +37,6 @@ const PostsPage = ({ posts }: PostsPageProps) => {
           ))}
         </div>
 
-        {/* Modal */}
         {isModalOpen && (
           <PostModal
             post={post}
