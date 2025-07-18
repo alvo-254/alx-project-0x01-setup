@@ -8,7 +8,7 @@ interface UsersPageProps {
   users: UserProps[];
 }
 
-const UsersPage = ({ users }: UsersPageProps) => {
+const Users = ({ users }: UsersPageProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleAddUser = (newUser: UserProps) => {
@@ -36,7 +36,6 @@ const UsersPage = ({ users }: UsersPageProps) => {
           ))}
         </div>
 
-        {/* Modal */}
         {isModalOpen && (
           <UserModal
             onClose={() => setModalOpen(false)}
@@ -57,4 +56,4 @@ export async function getStaticProps() {
   };
 }
 
-export default UsersPage;
+export default Users;
